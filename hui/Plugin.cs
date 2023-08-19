@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Exiled.API.Features;
-using Exiled.Events.EventArgs.Server;
-using PluginAPI;
-using Exiled.API.Interfaces;
+﻿using Exiled.API.Features;
 
 namespace hui
 {
@@ -21,10 +15,24 @@ namespace hui
         }
         public void RegisterEvents()
         {
+            Exiled.Events.Handlers.Player.Spawned += Respawn;
+            Exiled.Events.Handlers.Warhead.Detonated += Detonate;
         }
-        void Respawn()
+        void Respawn(Exiled.Events.EventArgs.Player.SpawnedEventArgs player)
         {
-
+            if(player.Player.Role == PlayerRoles.RoleTypeId.Scientist)
+            {
+                player.Player.SetAmmo(Exiled.API.Enums.AmmoType.Nato9, 100);
+                player.Player.AddItem(ItemType.SCP500);
+                player.Player.Health = 500;
+            }
+        }
+        void Detonate()
+        {
+            foreach(Player player in Player.List)
+            {
+                player.Kill("☢️☢️☢️☢️");
+            }
         }
     }
 }

@@ -13,10 +13,9 @@ namespace hui
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
         {
             var player = Player.Get(sender);
-            if(arguments.Count < 1)
+            if(arguments.Count == 0)
             {
-                response = "Еблан?";
-                return false;
+                player.CustomName = null;
             }
             else
             {
@@ -26,9 +25,9 @@ namespace hui
                     name += " " + arguments[i];
                 }
                 player.CustomName = name;
-                response = "Информация изменена";
-                return true;
             }
+            response = "Информация изменена";
+            return true;
         }
     }
 }
